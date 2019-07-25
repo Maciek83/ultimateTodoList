@@ -1,0 +1,26 @@
+package servlets;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+public class WelcomeServlet extends HttpServlet
+{
+    private static final Logger logger = LogManager.getLogger(WelcomeServlet.class);
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
+    {
+        resp.setContentType("text/html");
+        resp.getWriter().print("Hi im welcome Servlet. I have logger.");
+
+        logger.debug("dod");
+        logger.debug("nowy");
+
+    }
+}
