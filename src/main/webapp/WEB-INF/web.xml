@@ -6,8 +6,20 @@
 
     <display-name>Ultimate todos list</display-name>
 
+    <welcome-file-list>
+        <welcome-file>Welcome</welcome-file>
+    </welcome-file-list>
+
+    <error-page>
+        <location>/WEB-INF/error/error.jsp</location>
+    </error-page>
+
     <listener>
         <listener-class>org.apache.logging.log4j.web.Log4jServletContextListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>listeners.HibernateSessionFactoryListener</listener-class>
     </listener>
 
     <filter>
@@ -23,7 +35,7 @@
         <dispatcher>ERROR</dispatcher>
         <dispatcher>ASYNC</dispatcher>
     </filter-mapping>
-
+    
     <context-param>
         <param-name>isLog4jAutoInitializationDisabled</param-name>
         <param-value>true</param-value>
@@ -33,19 +45,24 @@
         <param-value>myApplication</param-value>
     </context-param>
 
-
-    <welcome-file-list>
-        <welcome-file>Welcome</welcome-file>
-    </welcome-file-list>
-
     <servlet>
         <servlet-name>welcome</servlet-name>
-        <servlet-class>servlets.WelcomeServlet</servlet-class>
+        <servlet-class>welcome.WelcomeServlet</servlet-class>
     </servlet>
     
     <servlet-mapping>
         <servlet-name>welcome</servlet-name>
         <url-pattern>/Welcome</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>todos</servlet-name>
+        <servlet-class>todos.TodoServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>todos</servlet-name>
+        <url-pattern>/Todos</url-pattern>
     </servlet-mapping>
 
 
