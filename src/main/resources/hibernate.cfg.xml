@@ -9,6 +9,9 @@
         <property name="hibernate.connection.datasource">java:comp/env/jdbc/TodoDB</property>
         <property name="hibernate.current_session_context_class">thread</property>
 
+        <property name="hibernate.hbm2ddl.auto">create</property>
+
         <mapping class="todos.Todo"/>
+<!--        <mapping class="tasks.Task"/>-->
     </session-factory>
 </hibernate-configuration>

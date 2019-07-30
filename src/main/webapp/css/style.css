@@ -1,0 +1,35 @@
+body{
+    margin: 0 auto;
+    width: 960px;
+}
+header{
+    height: 40px;
+    margin-bottom: 20px;
+}
+footer{
+    margin: 40px 0;
+}
+
+footer p{
+    text-align: center;
+}
+
+nav ul{
+    list-style-type: none;
+    padding: 0;
+}
+nav li{
+    display: inline;
+    float: left;
+}
+nav a:link, nav a:visited{
+    background-color: brown;
+    color: white;
+    display: block;
+    width: 160px;
+    text-align: center;
+    padding: 10px 0;
+}
+nav a:hover{
+    background-color: black;
+}

@@ -18,7 +18,7 @@ public class TodoRepository
         var transaction = session.beginTransaction();
 
         var result = session.createQuery("from Todo",Todo.class).list();
-
+        
         transaction.commit();
 
         return result;

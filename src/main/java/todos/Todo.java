@@ -1,24 +1,53 @@
 package todos;
 
+import enums.ProgramingLevels;
 import org.hibernate.annotations.GenericGenerator;
+import tasks.Task;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name="todos")
-public class Todo
-{
+@Table(name = "todos")
+public class Todo {
     @Id
     @GeneratedValue(generator = "inc")
-    @GenericGenerator(name ="inc", strategy = "increment")
+    @GenericGenerator(name = "inc", strategy = "increment")
     private Integer id;
-    private String text;
+    private String description;
     private boolean done;
+    @Column(name = "degree")
+    @Enumerated(EnumType.STRING)
+    private ProgramingLevels degree;
+//    @ManyToOne
+//    @JoinColumn(name="task")
+//    private Task task;
 
-    public Todo(){}
+//    public Task getTask() {
+//        return task;
+//    }
+//
+//    public void setTask(Task task) {
+//        this.task = task;
+//    }
+
+    public Todo() {
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public ProgramingLevels getDegree() {
+        return degree;
+    }
+
+    public void setDegree(ProgramingLevels degree) {
+        this.degree = degree;
+    }
 
     public Integer getId() {
         return id;
@@ -26,14 +55,6 @@ public class Todo
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     public boolean isDone() {

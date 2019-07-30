@@ -47,7 +47,7 @@
 
     <servlet>
         <servlet-name>welcome</servlet-name>
-        <servlet-class>welcome.WelcomeServlet</servlet-class>
+        <jsp-file>/index.jsp</jsp-file>
     </servlet>
     
     <servlet-mapping>
