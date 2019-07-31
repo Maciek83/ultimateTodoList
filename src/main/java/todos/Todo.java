@@ -1,36 +1,43 @@
 package todos;
 
+import employees.Employee;
 import enums.ProgramingLevels;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 import tasks.Task;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "todos")
 public class Todo {
     @Id
-    @GeneratedValue(generator = "inc")
-    @GenericGenerator(name = "inc", strategy = "increment")
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
+    private Integer todo_id;
+    @Column(nullable = false)
     private String description;
+    @ColumnDefault("0")
     private boolean done;
-    @Column(name = "degree")
+    @Column(name = "degree", nullable = false)
     @Enumerated(EnumType.STRING)
     private ProgramingLevels degree;
-//    @ManyToOne
-//    @JoinColumn(name="task")
-//    private Task task;
+    @ManyToOne
+    @JoinColumn(name="task", nullable = false)
+    private Task task;
+    @ManyToMany(mappedBy = "todos")
+    private Set<Employee> employees = new HashSet<>();
 
-//    public Task getTask() {
-//        return task;
-//    }
-//
-//    public void setTask(Task task) {
-//        this.task = task;
-//    }
+    public Todo() { }
 
-    public Todo() {
+    public Integer getTodo_id() {
+        return todo_id;
+    }
+
+    public void setTodo_id(Integer todo_id) {
+        this.todo_id = todo_id;
     }
 
     public String getDescription() {
@@ -41,6 +48,14 @@ public class Todo {
         this.description = description;
     }
 
+    public boolean isDone() {
+        return done;
+    }
+
+    public void setDone(boolean done) {
+        this.done = done;
+    }
+
     public ProgramingLevels getDegree() {
         return degree;
     }
@@ -49,19 +64,19 @@ public class Todo {
         this.degree = degree;
     }
 
-    public Integer getId() {
-        return id;
+    public Task getTask() {
+        return task;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setTask(Task task) {
+        this.task = task;
     }
 
-    public boolean isDone() {
-        return done;
+    public Set getEmployees() {
+        return employees;
     }
 
-    public void setDone(boolean done) {
-        this.done = done;
+    public void setEmployees(Set employees) {
+        this.employees = employees;
     }
 }

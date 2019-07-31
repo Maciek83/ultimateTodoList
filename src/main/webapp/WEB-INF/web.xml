@@ -10,9 +10,9 @@
         <welcome-file>Welcome</welcome-file>
     </welcome-file-list>
 
-    <error-page>
-        <location>/WEB-INF/error/error.jsp</location>
-    </error-page>
+<!--    <error-page>-->
+<!--        <location>/WEB-INF/error/error.jsp</location>-->
+<!--    </error-page>-->
 
     <listener>
         <listener-class>org.apache.logging.log4j.web.Log4jServletContextListener</listener-class>
@@ -55,6 +55,16 @@
         <url-pattern>/Welcome</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>employee</servlet-name>
+        <servlet-class>employees.EmployeeServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>employee</servlet-name>
+        <url-pattern>/Employee</url-pattern>
+    </servlet-mapping>
+    
     <servlet>
         <servlet-name>todos</servlet-name>
         <servlet-class>todos.TodoServlet</servlet-class>

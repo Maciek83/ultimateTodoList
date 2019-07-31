@@ -1,6 +1,7 @@
 package listeners;
 
 
+import employees.Employee;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -30,7 +31,8 @@ public class HibernateSessionFactoryListener implements ServletContextListener
         Configuration configuration = new Configuration();
 
         configuration.addAnnotatedClass(todos.Todo.class);
-//        configuration.addAnnotatedClass(tasks.Task.class);
+        configuration.addAnnotatedClass(tasks.Task.class);
+        configuration.addAnnotatedClass(Employee.class);
 
         configuration.configure("hibernate.cfg.xml");
 
