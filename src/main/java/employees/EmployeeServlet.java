@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EmployeeServlet extends HttpServlet {
     @Override
@@ -19,7 +20,14 @@ public class EmployeeServlet extends HttpServlet {
 
         List<Employee> employees = employeeRepository.findAll();
 
-        req.setAttribute("employees",employees);
+        List<Employee> junior = employees.stream().filter(e->e.getLevel().equals(ProgramingLevels.junior)).collect(Collectors.toList());
+        List<Employee> mid = employees.stream().filter(e->e.getLevel().equals(ProgramingLevels.mid)).collect(Collectors.toList());
+        List<Employee> senior = employees.stream().filter(e->e.getLevel().equals(ProgramingLevels.senior)).collect(Collectors.toList());
+
+        req.setAttribute("junior",junior);
+        req.setAttribute("mid",mid);
+        req.setAttribute("senior",senior);
+
 
         req.getRequestDispatcher("WEB-INF/included/employee.jsp").forward(req, resp);
     }
@@ -31,8 +39,17 @@ public class EmployeeServlet extends HttpServlet {
         {
             addEmployee(req);
         }
+        else if (req.getParameter("changeLevel") != null)
+        {
+            EmployeeRepository employeeRepository = prepareEmployeeRepository(req);
 
-        doGet(req,resp);
+            int empId = Integer.parseInt(req.getParameter("empId"));
+            String newLevel = req.getParameter("empLevel");
+
+            employeeRepository.changePosition(empId,newLevel);
+        }
+
+        doGet(req, resp);
     }
 
     private void addEmployee(HttpServletRequest req) {
@@ -43,21 +60,20 @@ public class EmployeeServlet extends HttpServlet {
         String surname = req.getParameter("surname");
         String level = req.getParameter("level");
 
-        if(name.length() == 0 || surname.length() == 0)
-        {
-            req.setAttribute("error",true);
-        }
-        else
-        {
-            req.setAttribute("error",false);
 
-            Employee employee = new Employee();
-            employee.setName(name.trim());
-            employee.setSurname(surname.trim());
-            employee.setLevel(ProgramingLevels.valueOf(level));
-
-            employeeRepository.addEmployee(employee);
+        if (name.length() == 0 || surname.length() == 0) {
+            return;
         }
+
+        req.setAttribute("error", false);
+
+        Employee employee = new Employee();
+        employee.setName(name.trim());
+        employee.setSurname(surname.trim());
+        employee.setLevel(ProgramingLevels.valueOf(level));
+
+        employeeRepository.addEmployee(employee);
+
     }
 
     private EmployeeRepository prepareEmployeeRepository(HttpServletRequest req) {

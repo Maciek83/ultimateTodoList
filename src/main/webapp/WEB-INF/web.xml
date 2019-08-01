@@ -46,6 +46,16 @@
     </context-param>
 
     <servlet>
+        <servlet-name>register</servlet-name>
+        <servlet-class>managers.RegisterServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>register</servlet-name>
+        <url-pattern>/Register</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>welcome</servlet-name>
         <jsp-file>/index.jsp</jsp-file>
     </servlet>

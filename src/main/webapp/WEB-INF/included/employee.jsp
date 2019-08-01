@@ -12,79 +12,124 @@
 <body>
 <c:import url="header.jsp" charEncoding="UTF=8"/>
 
-<c:set var="error" scope="request" value="${requestScope.error}"/>
+<c:set var="submit" scope="request" value="${pageContext.request.getParameter('addEmployee')}"/>
+
+<jsp:useBean id="emp" scope="request" class="employees.Employee">
+    <jsp:setProperty name="emp" property="name" value="${pageContext.request.getParameter('name')}"/>
+    <jsp:setProperty name="emp" property="surname" value="${pageContext.request.getParameter('surname')}"/>
+    <jsp:setProperty name="emp" property="level" value="${pageContext.request.getParameter('level')}"/>
+</jsp:useBean>
+
+<c:set var="isValid" scope="request" value="${emp.name.length() != 0 && emp.surname.length() != 0}"/>
 
 <form action="${pageContext.request.contextPath}/Employee" method="post">
     <fieldset>
         <legend>Insert new employee information:</legend>
+        <br/>
         <label for="name">Name:</label>
-        <input type="text" name="name" id="name"
-                <c:if test="${error == true}">
-                    value="${pageContext.request.getParameter("name")}"
-                </c:if>
-        />
+        <input
+                <c:if test="${!isValid && submit!=null && emp.name.length() == 0}">class="errorInput" </c:if>
+                type="text" name="name" id="name" <c:if test="${!isValid}">value="${emp.name}"</c:if>/>
+        <br/>
         <br/>
         <label for="surname">Surname:</label>
-        <input type="text" name="surname" id="surname"
-                <c:if test="${error == true}">
-                    value="${pageContext.request.getParameter("surname")}"
-                </c:if>
-        />
+        <input
+                <c:if test="${!isValid && submit!=null && emp.surname.length() == 0}">class="errorInput" </c:if>
+                type="text" name="surname" id="surname" <c:if test="${!isValid}">value="${emp.surname}"</c:if>/>
+        <br/>
         <br/>
         <label for="level">Select skill level:</label>
         <select name="level" id="level">
             <option value="junior">Junior</option>
             <option value="mid"
-                    <c:if test="${pageContext.request.getParameter('level').equals('mid')}">selected="selected"</c:if>>
+                    <c:if test="${emp.level.toString().equals('mid')}">selected="selected"</c:if>>
                 Mid
             </option>
             <option value="senior"
-                    <c:if test="${pageContext.request.getParameter('level').equals('senior')}">selected="selected"</c:if>>
+                    <c:if test="${emp.level.toString().equals('senior')}">selected="selected"</c:if>>
                 Senior
             </option>
         </select>
         <br/>
-        <input type="submit" name="addEmployee" value="Send">
+        <br/>
+        <input class="add-button" type="submit" name="addEmployee" value="Create">
         <br/>
 
-        <c:set var="submit" scope="request" value="${pageContext.request.getParameter('addEmployee')}"/>
-
         <c:choose>
-            <c:when test="${error == true}">
-                Check form again.
+            <c:when test="${!isValid && submit != null}">
+                <p class="error">Fill in the missing fields.</p>
             </c:when>
             <c:otherwise>
-                <c:if test="${submit != null && error == false}">
-                    Success!
+                <c:if test="${submit != null}">
+                    <p class="success">Success! You've created a new employee.</p>
                 </c:if>
             </c:otherwise>
         </c:choose>
+
     </fieldset>
 </form>
 
-
-<%--<table>--%>
-<%--    <tbody>--%>
-<%--    <tr>--%>
-<%--        <th>Id</th>--%>
-<%--        <th>Description</th>--%>
-<%--        <th>Is done</th>--%>
-<%--    </tr>--%>
-<%--    <c:forEach items="${requestScope.todoList}" var="todo">--%>
-<%--        <tr>--%>
-<%--            <td><c:out value="${todo.id}"/></td>--%>
-<%--            <td><c:out value="${todo.description}"/></td>--%>
-<%--            <td><c:out value="${todo.degree}"/></td>--%>
-<%--            <td>--%>
-<%--                <form action="${pageContext.request.contextPath}/Todos" method="post">--%>
-<%--                    <input type="hidden" name="idForCheckBox" value="<c:out value="${todo.id}"/>">--%>
-<%--                    <input type="submit" name="submit" value="<c:out value="${todo.done}"/>">--%>
-<%--                </form>--%>
-<%--            </td>--%>
-<%--        </tr>--%>
-<%--    </c:forEach>--%>
-<%--    </tbody>--%>
-<%--</table>--%>
+<h2 class="manager-tile">Manage employees</h2>
+<div class="row">
+    <div class="column">
+        <p class="entry-description">Junior</p>
+        <c:forEach items="${requestScope.junior}" var="emp">
+            <hr class="dot-style"/>
+            <span class="entry-left">${emp.name} ${emp.surname}</span>
+            <form class="right-form" action="${pageContext.request.contextPath}/Employee" method="post">
+                <input type="hidden" name="empId" value="${emp.employee_id}">
+                <input type="hidden" name="empLevel" value="mid">
+                <input class="move-button" type="submit" name="changeLevel" value="->">
+            </form>
+            <form class="delete-user-form" action="${pageContext.request.contextPath}/Employee" method="post">
+                <input type="hidden" name="empId" value="${emp.employee_id}">
+                <input class="delete-button" type="submit" name="deleteEmployee" value="DELETE">
+            </form>
+            <hr class="dot-style"/>
+        </c:forEach>
+    </div>
+    <div class="column">
+        <p class="entry-description">Mid</p>
+        <c:forEach items="${requestScope.mid}" var="emp">
+            <hr class="dot-style"/>
+            <form class="left-form" action="${pageContext.request.contextPath}/Employee" method="post">
+                <input type="hidden" name="empId" value="${emp.employee_id}">
+                <input type="hidden" name="empLevel" value="junior">
+                <input class="move-button" type="submit" name="changeLevel" value="<-">
+            </form>
+            <span class="entry-center">${emp.name} ${emp.surname}</span>
+            <form class="right-form" action="${pageContext.request.contextPath}/Employee" method="post">
+                <input type="hidden" name="empId" value="${emp.employee_id}">
+                <input type="hidden" name="empLevel" value="senior">
+                <input class="move-button" type="submit" name="changeLevel" value="->">
+            </form>
+            <br/>
+            <form class="delete-user-form" action="${pageContext.request.contextPath}/Employee" method="post">
+                <input type="hidden" name="empId" value="${emp.employee_id}">
+                <input class="delete-button" type="submit" name="deleteEmployee" value="DELETE">
+            </form>
+            <hr class="dot-style"/>
+        </c:forEach>
+    </div>
+    <div class="column">
+        <p class="entry-description">Senior</p>
+        <c:forEach items="${requestScope.senior}" var="emp">
+            <hr class="dot-style"/>
+            <form class="left-form" action="${pageContext.request.contextPath}/Employee" method="post">
+                <input type="hidden" name="empId" value="${emp.employee_id}">
+                <input type="hidden" name="empLevel" value="mid">
+                <input class="move-button" type="submit" name="changeLevel" value="<-">
+            </form>
+            <span class="entry-right">${emp.name} ${emp.surname}</span>
+            <br/>
+            <form class="delete-user-form" action="${pageContext.request.contextPath}/Employee" method="post">
+                <input type="hidden" name="empId" value="${emp.employee_id}">
+                <input class="delete-button" type="submit" name="deleteEmployee" value="DELETE">
+            </form>
+            <hr class="dot-style"/>
+        </c:forEach>
+    </div>
+</div>
 
 <c:import url="footer.jsp" charEncoding="UTF=8"/>
 </body>

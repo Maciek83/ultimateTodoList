@@ -2,6 +2,7 @@ package todos;
 
 import employees.Employee;
 import enums.ProgramingLevels;
+import managers.Manager;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 import tasks.Task;
@@ -15,7 +16,7 @@ import java.util.Set;
 public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private Integer todo_id;
     @Column(nullable = false)
     private String description;
@@ -29,6 +30,9 @@ public class Todo {
     private Task task;
     @ManyToMany(mappedBy = "todos")
     private Set<Employee> employees = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name="manager", nullable = false)
+    private Manager manager;
 
     public Todo() { }
 
@@ -76,7 +80,15 @@ public class Todo {
         return employees;
     }
 
-    public void setEmployees(Set employees) {
+    public void setEmployees(Set<Employee> employees) {
         this.employees = employees;
+    }
+
+    public Manager getManager() {
+        return manager;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
     }
 }

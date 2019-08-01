@@ -1,35 +1,148 @@
-body{
+:root {
+    --error-color: #e80021;
+    --main-color: #FF8B4F;
+    --completive-color: #E89A3C;
+    --completive2-color: #E8513C;
+    --completive3-color: #FF427E;
+    --completive4-color: #FFCB4F;
+    --success-color:#008003;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
     margin: 0 auto;
     width: 960px;
 }
-header{
+
+header {
     height: 40px;
     margin-bottom: 20px;
 }
-footer{
+
+footer {
     margin: 40px 0;
 }
 
-footer p{
+footer p {
     text-align: center;
 }
 
-nav ul{
+nav ul {
     list-style-type: none;
     padding: 0;
 }
-nav li{
+
+nav li {
     display: inline;
     float: left;
 }
-nav a:link, nav a:visited{
-    background-color: brown;
+
+nav a:link, nav a:visited {
+    background-color: var(--completive2-color);
     color: white;
     display: block;
     width: 160px;
     text-align: center;
     padding: 10px 0;
 }
-nav a:hover{
+
+nav a:hover {
     background-color: black;
+}
+
+.success{
+    color: var(--success-color);
+    text-align: center;
+    font-size: large;
+}
+
+.error {
+    color: var(--error-color);
+    text-align: center;
+    font-size: large;
+}
+
+.errorInput {
+    background-color: var(--error-color);
+}
+
+.row {
+    display: flex;
+    margin-top: 30px;
+}
+
+.column {
+    width: 33.3%;
+    display: inline-block;
+    text-align: center;
+    overflow: auto;
+}
+
+.right-form {
+    float: right;
+    margin: 0 15% 0 0;
+}
+
+.left-form {
+    float: left;
+    margin: 0 0 0 15%;
+}
+
+.entry-description {
+    background-color: var(--main-color);
+    color: black;
+    font-size: large;
+    font-family: 'DejaVu Serif', Georgia, "Times New Roman", Times, serif;
+    width: 80%;
+    margin: 0 10%;
+}
+
+.entry-left {
+    margin-left: 20%;
+}
+
+.entry-center {
+    margin: 0 7.5%;
+}
+
+.entry-right {
+    margin-right: 20%;
+}
+
+.dot-style {
+    width: 70%;
+    border-top: 1px dotted var(--completive4-color);
+}
+
+.delete-user-form{
+    clear: both;
+    margin-top: 20px;
+}
+
+.delete-button
+{
+    background-color: var(--main-color);
+    border-radius: 4px;
+    color: black;
+}
+
+.move-button{
+    border-radius: 50%;
+    background-color: #FFCB4F;
+    color: black;
+    font-size: large;
+}
+
+.add-button{
+    background-color: var(--completive4-color);
+}
+
+.manager-tile{
+    text-align: center;
+    margin: 40px 0;
 }

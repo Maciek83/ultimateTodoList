@@ -1,7 +1,7 @@
 package tasks;
 
+import managers.Manager;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.GenericGenerator;
 import todos.Todo;
 
 import javax.persistence.*;
@@ -12,7 +12,7 @@ import java.util.Set;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private Integer task_id;
     @Column(nullable = false)
     private String name;
@@ -21,7 +21,10 @@ public class Task {
     @ColumnDefault("0")
     private boolean done;
     @OneToMany(mappedBy = "task")
-    private Set<Todo> items;
+    private Set<Todo> todos;
+    @ManyToOne
+    @JoinColumn(name="manager", nullable = false)
+    private Manager manager;
 
     public Task() {
     }
@@ -58,11 +61,19 @@ public class Task {
         this.done = done;
     }
 
-    public Set<Todo> getItems() {
-        return items;
+    public Set<Todo> getTodos() {
+        return todos;
     }
 
-    public void setItems(Set<Todo> items) {
-        this.items = items;
+    public void setTodos(Set<Todo> items) {
+        this.todos = items;
+    }
+
+    public Manager getManager() {
+        return manager;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
     }
 }

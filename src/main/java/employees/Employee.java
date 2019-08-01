@@ -1,7 +1,7 @@
 package employees;
 
 import enums.ProgramingLevels;
-import org.hibernate.annotations.GenericGenerator;
+import managers.Manager;
 import todos.Todo;
 
 import javax.persistence.*;
@@ -13,7 +13,7 @@ import java.util.Set;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private Integer employee_id;
     @Column(nullable = false)
     private String name;
@@ -31,8 +31,11 @@ public class Employee {
                     @JoinColumn(name = "todo_id")}
     )
     private Set<Todo> todos = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name="manager", nullable = false)
+    private Manager manager;
 
-    public Employee() { name=""; }
+    public Employee() { }
 
     public Integer getEmployee_id() {
         return employee_id;
@@ -70,7 +73,15 @@ public class Employee {
         return todos;
     }
 
-    public void setTodos(Set todos) {
+    public void setTodos(Set<Todo> todos) {
         this.todos = todos;
+    }
+
+    public Manager getManager() {
+        return manager;
+    }
+
+    public void setManager(Manager manager) {
+        this.manager = manager;
     }
 }
