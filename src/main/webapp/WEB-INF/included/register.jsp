@@ -20,12 +20,11 @@
     <jsp:setProperty name="manager" property="surname" value="${pageContext.request.getParameter('surname')}"/>
 </jsp:useBean>
 
-<c:set var="isValid" scope="request" value="${pageContext.request.getAttribute('isValid')}"/>
-<c:set var="emailRegistered" scope="request" value="${pageContext.request.getAttribute('emailRegistered')}"/>
+<c:set var="isNameOk" scope="request" value="${pageContext.request.getAttribute('isNameOk')}"/>
+<c:set var="isSurnameOk" scope="request" value="${pageContext.request.getAttribute('isSurnameOk')}"/>
+<c:set var="managerAdded" scope="request" value="${pageContext.request.getAttribute('managerAdded')}"/>
 <c:set var="isEmailValid" scope="request" value="${pageContext.request.getAttribute('isEmailValid')}"/>
-
-
-<c:out value="${emailRegistered}"/>
+<c:set var="isPasswordOk" scope="request" value="${pageContext.request.getAttribute('isPasswordOk')}"/>
 
 <form action="${pageContext.request.contextPath}/Register" method="post">
     <fieldset>
@@ -33,20 +32,32 @@
         <br/>
         <label for="email">Email:</label>
         <input
-                <c:if test="${!isEmailValid && submit!=null || manager.email.length() == 0 && submit!=null && !emailRegistered}">class="errorInput" </c:if>
-                type="text" name="email" id="email" <c:if test="${!isValid}">value="${manager.email}"</c:if>/>
+                <c:if test="${submit != null && !isEmailValid && !managerAdded}">class="errorInput" </c:if>
+                type="text" name="email" id="email" <c:if test="${submit != null && !managerAdded}">value="${manager.email}"</c:if>/>
+        <br/>
+        <br/>
+        <label for="password">Password:</label>
+        <input
+                <c:if test="${!isPasswordOk && submit!=null}">class="errorInput" </c:if>
+                type="password" name="password" id="password" />
+        <br/>
+        <br/>
+        <label for="passwordCheck">Password retype:</label>
+        <input
+                <c:if test="${!isPasswordOk && submit!=null}">class="errorInput" </c:if>
+                type="password" name="passwordCheck" id="passwordCheck" />
         <br/>
         <br/>
         <label for="name">Name:</label>
         <input
-                <c:if test="${!isValid && submit!=null && manager.name.length() == 0}">class="errorInput" </c:if>
-                type="text" name="name" id="name" <c:if test="${!isValid}">value="${manager.name}"</c:if>/>
+                <c:if test="${manager.name.length() == 0 && submit!=null}">class="errorInput" </c:if>
+                type="text" name="name" id="name" <c:if test="${!isNameOk || !managerAdded}">value="${manager.name}"</c:if>/>
         <br/>
         <br/>
         <label for="surname">Surname:</label>
         <input
-                <c:if test="${!isValid && submit!=null && manager.surname.length() == 0}">class="errorInput" </c:if>
-                type="text" name="surname" id="surname" <c:if test="${!isValid}">value="${manager.surname}"</c:if>/>
+                <c:if test="${manager.surname.length() == 0 && submit!=null}">class="errorInput" </c:if>
+                type="text" name="surname" id="surname" <c:if test="${!isSurnameOk || !managerAdded}">value="${manager.surname}"</c:if>/>
         <br/>
         <br/>
 
@@ -54,26 +65,28 @@
         <br/>
 
         <c:choose>
-            <c:when test="${!isValid && submit != null}">
+            <c:when test="${!isNameOk && !isSurnameOk && submit != null}">
                 <p class="error">Fill in the missing fields.</p>
                 <c:if test="${!isEmailValid}">
-                    <p class="error">Enter the correct email.</p>
+                    <p class="error">Enter correct email.</p>
+                </c:if>
+                <c:if test="${!isPasswordOk}">
+                    <p class="error">Passwords do not match.</p>
                 </c:if>
             </c:when>
             <c:otherwise>
                 <c:choose>
-                    <c:when test="${emailRegistered && submit != null}">
+                    <c:when test="${!managerAdded && submit != null}">
                         <p class="error">This email is already registered.</p>
                     </c:when>
                     <c:otherwise>
-                        <c:if test="${submit != null && !emailRegistered}">
+                        <c:if test="${submit != null && managerAdded}">
                         <p class="success">A new account has been registered.</p>
                         </c:if>
                     </c:otherwise>
                 </c:choose>
             </c:otherwise>
         </c:choose>
-
     </fieldset>
 </form>
 

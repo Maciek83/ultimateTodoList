@@ -20,6 +20,7 @@
     <jsp:setProperty name="emp" property="level" value="${pageContext.request.getParameter('level')}"/>
 </jsp:useBean>
 
+
 <c:set var="isValid" scope="request" value="${emp.name.length() != 0 && emp.surname.length() != 0}"/>
 
 <form action="${pageContext.request.contextPath}/Employee" method="post">

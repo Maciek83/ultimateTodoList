@@ -40,4 +40,26 @@ public class ManagerRepository {
 
         return false;
     }
+
+    public Optional<Manager> tryLogin(String email, String password)
+    {
+        Transaction transaction = session.beginTransaction();
+
+        Optional<Manager> manager = Optional.empty();
+
+        try {
+            manager = Optional.ofNullable(session.createQuery("From Manager M WHERE M.email = :em and M.password = :pas", Manager.class)
+                    .setParameter("em", email)
+                    .setParameter("pas",password)
+                    .getSingleResult());
+        } catch (NoResultException e) {
+
+
+        }
+
+        transaction.commit();
+
+        return manager;
+
+    }
 }

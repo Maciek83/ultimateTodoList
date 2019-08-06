@@ -1,7 +1,9 @@
 package employees;
 
 import enums.ProgramingLevels;
+import managers.Manager;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.util.List;
 
@@ -14,11 +16,13 @@ public class EmployeeRepository
         this.session = session;
     }
 
-    List<Employee> findAll()
+    List<Employee> findAll(Manager manager)
     {
-        var transaction = session.beginTransaction();
+        Transaction transaction = session.beginTransaction();
 
-        var result = session.createQuery("from Employee", Employee.class).list();
+        List<Employee> result = session.createQuery("from Employee E where E.manager=:manager", Employee.class)
+                .setParameter("manager",manager)
+                .list();
 
         transaction.commit();
 
@@ -27,7 +31,7 @@ public class EmployeeRepository
 
     Employee changePosition(Integer empId, String newPosition)
     {
-        var transaction = session.beginTransaction();
+        Transaction transaction = session.beginTransaction();
 
         ProgramingLevels newLevel = ProgramingLevels.valueOf(newPosition);
         Employee employeeToChange = session.get(Employee.class,empId);

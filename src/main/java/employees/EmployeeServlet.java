@@ -1,6 +1,7 @@
 package employees;
 
 import enums.ProgramingLevels;
+import managers.Manager;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -13,12 +14,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class EmployeeServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         EmployeeRepository employeeRepository = prepareEmployeeRepository(req);
 
-        List<Employee> employees = employeeRepository.findAll();
+        Manager manager = (Manager) req.getSession().getAttribute("loggedManager");
+
+        List<Employee> employees = employeeRepository.findAll(manager);
 
         List<Employee> junior = employees.stream().filter(e->e.getLevel().equals(ProgramingLevels.junior)).collect(Collectors.toList());
         List<Employee> mid = employees.stream().filter(e->e.getLevel().equals(ProgramingLevels.mid)).collect(Collectors.toList());
@@ -38,8 +42,15 @@ public class EmployeeServlet extends HttpServlet {
         if (req.getParameter("addEmployee") != null)
         {
             addEmployee(req);
+            doGet(req, resp);
         }
-        else if (req.getParameter("changeLevel") != null)
+
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        if (req.getParameter("changeLevel") != null)
         {
             EmployeeRepository employeeRepository = prepareEmployeeRepository(req);
 
@@ -47,14 +58,15 @@ public class EmployeeServlet extends HttpServlet {
             String newLevel = req.getParameter("empLevel");
 
             employeeRepository.changePosition(empId,newLevel);
-        }
 
-        doGet(req, resp);
+            doGet(req,resp);
+        }
     }
 
     private void addEmployee(HttpServletRequest req) {
 
         EmployeeRepository employeeRepository = prepareEmployeeRepository(req);
+        Manager manager = (Manager) req.getSession().getAttribute("loggedManager");
 
         String name = req.getParameter("name");
         String surname = req.getParameter("surname");
@@ -71,6 +83,7 @@ public class EmployeeServlet extends HttpServlet {
         employee.setName(name.trim());
         employee.setSurname(surname.trim());
         employee.setLevel(ProgramingLevels.valueOf(level));
+        employee.setManager(manager);
 
         employeeRepository.addEmployee(employee);
 
