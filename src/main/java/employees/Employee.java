@@ -30,7 +30,7 @@ public class Employee {
             inverseJoinColumns = {
                     @JoinColumn(name = "todo_id")}
     )
-    private Set<Todo> todos = new HashSet<>();
+    private Set<Todo> todos;
     @ManyToOne
     @JoinColumn(name="manager", nullable = false)
     private Manager manager;

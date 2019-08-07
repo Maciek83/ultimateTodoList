@@ -6,6 +6,7 @@ import tasks.Task;
 import todos.Todo;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,10 +25,10 @@ public class Manager {
     @Column(nullable = false)
     private String password;
     @OneToMany(mappedBy = "manager")
-    private Set<Task> tasks;
+    private List<Task> tasks;
     @OneToMany(mappedBy = "manager")
     private Set<Todo> todos;
-    @OneToMany(mappedBy = "manager")
+    @OneToMany(mappedBy = "manager", fetch = FetchType.EAGER)
     private Set<Employee> employees;
 
     public Manager() {
@@ -65,11 +66,11 @@ public class Manager {
         this.surname = surname;
     }
 
-    public Set<Task> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    public void setTasks(Set<Task> tasks) {
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
 

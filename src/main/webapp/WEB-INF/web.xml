@@ -44,7 +44,7 @@
     <filter-mapping>
         <filter-name>RequestLoginFilter</filter-name>
         <servlet-name>employee</servlet-name>
-        <servlet-name>todos</servlet-name>
+        <servlet-name>tasks</servlet-name>
 
     </filter-mapping>
     
@@ -96,16 +96,6 @@
         <servlet-name>employee</servlet-name>
         <url-pattern>/Employee</url-pattern>
     </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>todos</servlet-name>
-        <servlet-class>todos.TodoServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>todos</servlet-name>
-        <url-pattern>/Todos</url-pattern>
-    </servlet-mapping>
 
     <servlet>
         <servlet-name>logout</servlet-name>
@@ -115,6 +105,16 @@
     <servlet-mapping>
         <servlet-name>logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>tasks</servlet-name>
+        <servlet-class>tasks.TaskServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>tasks</servlet-name>
+        <url-pattern>/Tasks</url-pattern>
     </servlet-mapping>
 
 </web-app>

@@ -4,7 +4,6 @@ import employees.Employee;
 import enums.ProgramingLevels;
 import managers.Manager;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.GenericGenerator;
 import tasks.Task;
 
 import javax.persistence.*;
@@ -28,8 +27,8 @@ public class Todo {
     @ManyToOne
     @JoinColumn(name="task", nullable = false)
     private Task task;
-    @ManyToMany(mappedBy = "todos")
-    private Set<Employee> employees = new HashSet<>();
+    @ManyToMany(mappedBy = "todos", fetch = FetchType.EAGER)
+    private Set<Employee> employees;
     @ManyToOne
     @JoinColumn(name="manager", nullable = false)
     private Manager manager;

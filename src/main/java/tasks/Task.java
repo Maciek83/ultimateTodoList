@@ -5,6 +5,7 @@ import org.hibernate.annotations.ColumnDefault;
 import todos.Todo;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -20,8 +21,8 @@ public class Task {
     private String description;
     @ColumnDefault("0")
     private boolean done;
-    @OneToMany(mappedBy = "task")
-    private Set<Todo> todos;
+    @OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
+    private List<Todo> todos;
     @ManyToOne
     @JoinColumn(name="manager", nullable = false)
     private Manager manager;
@@ -61,11 +62,11 @@ public class Task {
         this.done = done;
     }
 
-    public Set<Todo> getTodos() {
+    public List<Todo> getTodos() {
         return todos;
     }
 
-    public void setTodos(Set<Todo> items) {
+    public void setTodos(List<Todo> items) {
         this.todos = items;
     }
 

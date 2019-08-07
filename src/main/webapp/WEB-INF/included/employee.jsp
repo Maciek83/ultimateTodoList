@@ -21,7 +21,7 @@
 </jsp:useBean>
 
 
-<c:set var="isValid" scope="request" value="${emp.name.length() != 0 && emp.surname.length() != 0}"/>
+<c:set var="isValid" scope="request" value="${emp.name.trim().length() != 0 && emp.surname.trim().length() != 0}"/>
 
 <form action="${pageContext.request.contextPath}/Employee" method="post">
     <fieldset>
@@ -29,13 +29,13 @@
         <br/>
         <label for="name">Name:</label>
         <input
-                <c:if test="${!isValid && submit!=null && emp.name.length() == 0}">class="errorInput" </c:if>
+                <c:if test="${!isValid && submit!=null && emp.name.trim().length() == 0}">class="errorInput" </c:if>
                 type="text" name="name" id="name" <c:if test="${!isValid}">value="${emp.name}"</c:if>/>
         <br/>
         <br/>
         <label for="surname">Surname:</label>
         <input
-                <c:if test="${!isValid && submit!=null && emp.surname.length() == 0}">class="errorInput" </c:if>
+                <c:if test="${!isValid && submit!=null && emp.surname.trim().length() == 0}">class="errorInput" </c:if>
                 type="text" name="surname" id="surname" <c:if test="${!isValid}">value="${emp.surname}"</c:if>/>
         <br/>
         <br/>
@@ -83,7 +83,7 @@
                 <input class="move-button" type="submit" name="changeLevel" value="->">
             </form>
             <form class="delete-user-form" action="${pageContext.request.contextPath}/Employee" method="post">
-                <input type="hidden" name="empId" value="${emp.employee_id}">
+                <input type="hidden" name="empId2" value="${emp.employee_id}">
                 <input class="delete-button" type="submit" name="deleteEmployee" value="DELETE">
             </form>
             <hr class="dot-style"/>
@@ -106,7 +106,7 @@
             </form>
             <br/>
             <form class="delete-user-form" action="${pageContext.request.contextPath}/Employee" method="post">
-                <input type="hidden" name="empId" value="${emp.employee_id}">
+                <input type="hidden" name="empId2" value="${emp.employee_id}">
                 <input class="delete-button" type="submit" name="deleteEmployee" value="DELETE">
             </form>
             <hr class="dot-style"/>
@@ -124,7 +124,7 @@
             <span class="entry-right">${emp.name} ${emp.surname}</span>
             <br/>
             <form class="delete-user-form" action="${pageContext.request.contextPath}/Employee" method="post">
-                <input type="hidden" name="empId" value="${emp.employee_id}">
+                <input type="hidden" name="empId2" value="${emp.employee_id}">
                 <input class="delete-button" type="submit" name="deleteEmployee" value="DELETE">
             </form>
             <hr class="dot-style"/>

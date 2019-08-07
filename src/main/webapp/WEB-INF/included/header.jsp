@@ -6,7 +6,7 @@
             <li><a href="${pageContext.request.contextPath}/Welcome">Home</a></li>
             <c:choose>
                 <c:when test="${pageContext.session.getAttribute('loggedManager') != null}">
-                    <li><a href="${pageContext.request.contextPath}/Todos">Manage Todos</a></li>
+                    <li><a href="${pageContext.request.contextPath}/Tasks">Manage Tasks</a></li>
                     <li><a href="${pageContext.request.contextPath}/Employee">Manage Employee</a></li>
                     <li><a href="${pageContext.request.contextPath}/Logout">Logout</a></li>
                     <li>Welcome ${pageContext.session.getAttribute("loggedManager").name}</li>

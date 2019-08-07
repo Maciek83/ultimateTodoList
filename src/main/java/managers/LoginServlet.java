@@ -2,6 +2,7 @@ package managers;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +26,7 @@ public class LoginServlet extends HttpServlet
         String email = req.getParameter("email").trim();
         String password = req.getParameter("password").trim();
 
+        Transaction transaction = getSession(req).beginTransaction();
         managerRepository.tryLogin(email,password)
                 .ifPresentOrElse(manager -> {
                     req.getSession().setAttribute("loggedManager",manager);
@@ -33,16 +35,17 @@ public class LoginServlet extends HttpServlet
                         ()->{
                     req.getSession().setAttribute("loggedManager",null);
                 });
-
+        transaction.commit();
 
         doGet(req,resp);
     }
 
     private ManagerRepository prepareManagerRepository(HttpServletRequest req) {
+        return new ManagerRepository(getSession(req));
+    }
+
+    private Session getSession(HttpServletRequest req) {
         SessionFactory sessionFactory = (SessionFactory) req.getServletContext().getAttribute("SessionFactory");
-        Session session = sessionFactory.getCurrentSession();
-
-
-        return new ManagerRepository(session);
+        return sessionFactory.getCurrentSession();
     }
 }

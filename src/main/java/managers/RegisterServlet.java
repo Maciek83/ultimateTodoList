@@ -2,6 +2,7 @@ package managers;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +22,7 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        ManagerRepository managerRepository = prepareManagerRepository(req);
+        ManagerRepository managerRepository = new ManagerRepository(getSession(req));
 
         String name = req.getParameter("name").trim();
         String surname = req.getParameter("surname").trim();
@@ -57,7 +58,9 @@ public class RegisterServlet extends HttpServlet {
             newManager.setSurname(surname);
             newManager.setPassword(password);
 
+            Transaction transaction = getSession(req).beginTransaction();
             boolean isAdded = managerRepository.addManager(newManager);
+            transaction.commit();
 
             if (isAdded) {
                 req.setAttribute("managerAdded", true);
@@ -95,9 +98,8 @@ public class RegisterServlet extends HttpServlet {
         return matcher.find();
     }
 
-    private ManagerRepository prepareManagerRepository(HttpServletRequest req) {
+    private Session getSession(HttpServletRequest req) {
         SessionFactory sessionFactory = (SessionFactory) req.getServletContext().getAttribute("SessionFactory");
-        Session session = sessionFactory.getCurrentSession();
-        return new ManagerRepository(session);
+        return sessionFactory.getCurrentSession();
     }
 }

@@ -33,8 +33,6 @@ public class RequestLoginFilter implements Filter {
 
         filterChain.doFilter(servletRequest,servletResponse);
 
-
-
     }
 
     @Override

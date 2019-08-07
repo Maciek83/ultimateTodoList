@@ -15,7 +15,7 @@ public class ManagerRepository {
     }
 
     public boolean addManager(Manager newManager) {
-        Transaction transaction = session.beginTransaction();
+
 
         Optional<Manager> manager = Optional.empty();
 
@@ -32,18 +32,15 @@ public class ManagerRepository {
         if (manager.isEmpty())
         {
             session.persist(newManager);
-            transaction.commit();
             return true;
         }
 
-        transaction.commit();
 
         return false;
     }
 
     public Optional<Manager> tryLogin(String email, String password)
     {
-        Transaction transaction = session.beginTransaction();
 
         Optional<Manager> manager = Optional.empty();
 
@@ -52,12 +49,7 @@ public class ManagerRepository {
                     .setParameter("em", email)
                     .setParameter("pas",password)
                     .getSingleResult());
-        } catch (NoResultException e) {
-
-
-        }
-
-        transaction.commit();
+        } catch (NoResultException e) { }
 
         return manager;
 
