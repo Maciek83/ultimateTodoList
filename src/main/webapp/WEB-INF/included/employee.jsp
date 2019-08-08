@@ -23,20 +23,32 @@
 
 <c:set var="isValid" scope="request" value="${emp.name.trim().length() != 0 && emp.surname.trim().length() != 0}"/>
 
-<form action="${pageContext.request.contextPath}/Employee" method="post">
+<%--add employee form start--%>
+<form class="big-form" action="${pageContext.request.contextPath}/Employee" method="post">
     <fieldset>
-        <legend>Insert new employee information:</legend>
+        <legend>Insert new employee information</legend>
         <br/>
         <label for="name">Name:</label>
         <input
                 <c:if test="${!isValid && submit!=null && emp.name.trim().length() == 0}">class="errorInput" </c:if>
-                type="text" name="name" id="name" <c:if test="${!isValid}">value="${emp.name}"</c:if>/>
+                <c:if test="${!isValid}">value="${emp.name}"</c:if>
+                type="text"
+                name="name"
+                placeholder="Enter employee name"
+                maxlength="225"
+                id="name"/>
         <br/>
         <br/>
         <label for="surname">Surname:</label>
         <input
                 <c:if test="${!isValid && submit!=null && emp.surname.trim().length() == 0}">class="errorInput" </c:if>
-                type="text" name="surname" id="surname" <c:if test="${!isValid}">value="${emp.surname}"</c:if>/>
+                <c:if test="${!isValid}">value="${emp.surname}"</c:if>
+                type="text"
+                name="surname"
+                placeholder="Enter employee surname"
+                maxlength="225"
+                id="surname"
+                />
         <br/>
         <br/>
         <label for="level">Select skill level:</label>
@@ -53,7 +65,7 @@
         </select>
         <br/>
         <br/>
-        <input class="add-button" type="submit" name="addEmployee" value="Create">
+        <input type="submit" name="addEmployee" value="Create">
         <br/>
 
         <c:choose>
@@ -69,7 +81,9 @@
 
     </fieldset>
 </form>
+<%--add employee form end--%>
 
+<c:if test="${requestScope.allEmployees.size() > 0}">
 <h2 class="manager-tile">Manage employees</h2>
 <div class="row">
     <div class="column">
@@ -84,7 +98,7 @@
             </form>
             <form class="delete-user-form" action="${pageContext.request.contextPath}/Employee" method="post">
                 <input type="hidden" name="empId2" value="${emp.employee_id}">
-                <input class="delete-button" type="submit" name="deleteEmployee" value="DELETE">
+                <input type="submit" name="deleteEmployee" value="Delete">
             </form>
             <hr class="dot-style"/>
         </c:forEach>
@@ -107,7 +121,7 @@
             <br/>
             <form class="delete-user-form" action="${pageContext.request.contextPath}/Employee" method="post">
                 <input type="hidden" name="empId2" value="${emp.employee_id}">
-                <input class="delete-button" type="submit" name="deleteEmployee" value="DELETE">
+                <input type="submit" name="deleteEmployee" value="Delete">
             </form>
             <hr class="dot-style"/>
         </c:forEach>
@@ -125,12 +139,13 @@
             <br/>
             <form class="delete-user-form" action="${pageContext.request.contextPath}/Employee" method="post">
                 <input type="hidden" name="empId2" value="${emp.employee_id}">
-                <input class="delete-button" type="submit" name="deleteEmployee" value="DELETE">
+                <input type="submit" name="deleteEmployee" value="Delete">
             </form>
             <hr class="dot-style"/>
         </c:forEach>
     </div>
 </div>
+</c:if>
 
 <c:import url="footer.jsp" charEncoding="UTF=8"/>
 </body>

@@ -1,11 +1,14 @@
 package todos;
 
 import employees.Employee;
+import enums.ProgramingLevels;
 import org.hibernate.Session;
 import tasks.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TodoRepository {
     private Session session;

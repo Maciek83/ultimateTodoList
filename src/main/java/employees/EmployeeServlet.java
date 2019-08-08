@@ -14,9 +14,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class EmployeeServlet extends HttpServlet{
-
-
+public class EmployeeServlet extends HttpServlet {
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -28,28 +27,31 @@ public class EmployeeServlet extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        Manager manager = (Manager) req.getSession().getAttribute("loggedManager");
+        Integer uniqueManagerId = (Integer) req.getSession().getAttribute("uniqueManagerId");
 
-        if (req.getParameter("addEmployee") != null)
-        {
-            addEmployee(req);
+        if (manager.getManager_id().equals(uniqueManagerId)) {
+            if (req.getParameter("addEmployee") != null) {
+                addEmployee(req);
 
-        }
-        else if (req.getParameter("changeLevel") != null)
-        {
-            changeEmployeeLevel(req);
-        }
-        else if (req.getParameter("deleteEmployee") != null)
-        {
-            EmployeeRepository employeeRepository = new EmployeeRepository(getSession(req));
-
-            Integer empId = Integer.parseInt(req.getParameter("empId2"));
-
-            Transaction transaction = getSession(req).beginTransaction();
-            employeeRepository.deleteEmployee(empId);
-            transaction.commit();
+            } else if (req.getParameter("changeLevel") != null) {
+                changeEmployeeLevel(req);
+            } else if (req.getParameter("deleteEmployee") != null) {
+                deleteEmp(req);
+            }
         }
 
         doGet(req, resp);
+    }
+
+    private void deleteEmp(HttpServletRequest req) {
+        EmployeeRepository employeeRepository = new EmployeeRepository(getSession(req));
+
+        Integer empId = Integer.parseInt(req.getParameter("empId2"));
+
+        Transaction transaction = getSession(req).beginTransaction();
+        employeeRepository.deleteEmployee(empId);
+        transaction.commit();
     }
 
     private void changeEmployeeLevel(HttpServletRequest req) {
@@ -59,7 +61,7 @@ public class EmployeeServlet extends HttpServlet{
         String newLevel = req.getParameter("empLevel");
 
         Transaction transaction = getSession(req).beginTransaction();
-        employeeRepository.changePosition(empId,newLevel);
+        employeeRepository.changePosition(empId, newLevel);
         transaction.commit();
     }
 
@@ -73,7 +75,7 @@ public class EmployeeServlet extends HttpServlet{
         String level = req.getParameter("level").trim();
 
 
-        if (name.length() == 0 || surname.length() == 0)  return;
+        if (name.length() == 0 || surname.length() == 0 || name.length() > 225 || surname.length() > 225) return;
 
         Employee employee = new Employee();
         employee.setName(name.trim());
@@ -100,13 +102,14 @@ public class EmployeeServlet extends HttpServlet{
         List<Employee> employees = employeeRepository.findAll(manager);
         transaction.commit();
 
-        List<Employee> junior = employees.stream().filter(e->e.getLevel().equals(ProgramingLevels.junior)).collect(Collectors.toList());
-        List<Employee> mid = employees.stream().filter(e->e.getLevel().equals(ProgramingLevels.mid)).collect(Collectors.toList());
-        List<Employee> senior = employees.stream().filter(e->e.getLevel().equals(ProgramingLevels.senior)).collect(Collectors.toList());
+        List<Employee> junior = employees.stream().filter(e -> e.getLevel().equals(ProgramingLevels.junior)).collect(Collectors.toList());
+        List<Employee> mid = employees.stream().filter(e -> e.getLevel().equals(ProgramingLevels.mid)).collect(Collectors.toList());
+        List<Employee> senior = employees.stream().filter(e -> e.getLevel().equals(ProgramingLevels.senior)).collect(Collectors.toList());
 
-        req.setAttribute("junior",junior);
-        req.setAttribute("mid",mid);
-        req.setAttribute("senior",senior);
+        req.setAttribute("allEmployees",employees);
+        req.setAttribute("junior", junior);
+        req.setAttribute("mid", mid);
+        req.setAttribute("senior", senior);
     }
 
 

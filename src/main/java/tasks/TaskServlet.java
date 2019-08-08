@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TaskServlet extends HttpServlet {
     @Override
@@ -31,11 +32,13 @@ public class TaskServlet extends HttpServlet {
         List<Task> taskList = taskRepository.findAll(manager);
         List<Employee> employeeList = employeeRepository.findAll(manager);
 
-
         transaction.commit();
 
         req.setAttribute("allTasks", taskList);
-        req.setAttribute("allEmployee",employeeList);
+        req.setAttribute("allEmployee", employeeList);
+        req.setAttribute("juniors",employeeList.stream().filter(employee -> employee.getLevel().equals(ProgramingLevels.junior)).collect(Collectors.toList()));
+        req.setAttribute("mid",employeeList.stream().filter(employee -> employee.getLevel().equals(ProgramingLevels.mid)).collect(Collectors.toList()));
+        req.setAttribute("seniors",employeeList.stream().filter(employee -> employee.getLevel().equals(ProgramingLevels.senior)).collect(Collectors.toList()));
 
         req.getRequestDispatcher("WEB-INF/included/task.jsp").forward(req, resp);
 
@@ -44,37 +47,27 @@ public class TaskServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        if (req.getParameter("addTask") != null)
-        {
-            addTask(req);
-        }
-        else if (req.getParameter("addTodo") != null)
-        {
-            addTodo(req);
-        }
-        else if (req.getParameter("addEmployee") != null)
-        {
-            addMToMTodoEmployee(req);
-        }
-        else if (req.getParameter("deleteTodo") != null)
-        {
-            deleteTodo(req);
-        }
-        else if (req.getParameter("flipTask") != null)
-        {
-            flipTask(req);
-        }
-        else if (req.getParameter("deleteTask") != null)
-        {
-            deleteTask(req);
-        }
-        else if(req.getParameter("flipTodo") != null)
-        {
-            flipTodo(req);
-        }
-        else if(req.getParameter("deleteFormDoTo") != null)
-        {
-            deleteEmpFromMakingToDo(req);
+        Manager manager = (Manager) req.getSession().getAttribute("loggedManager");
+        Integer uniqueManagerId = (Integer) req.getSession().getAttribute("uniqueManagerId");
+
+        if (manager.getManager_id().equals(uniqueManagerId)) {
+            if (req.getParameter("addTask") != null) {
+                addTask(req);
+            } else if (req.getParameter("addTodo") != null) {
+                addTodo(req);
+            } else if (req.getParameter("addEmployee") != null) {
+                addMToMTodoEmployee(req);
+            } else if (req.getParameter("deleteTodo") != null) {
+                deleteTodo(req);
+            } else if (req.getParameter("flipTask") != null) {
+                flipTask(req);
+            } else if (req.getParameter("deleteTask") != null) {
+                deleteTask(req);
+            } else if (req.getParameter("flipTodo") != null) {
+                flipTodo(req);
+            } else if (req.getParameter("deleteFormDoTo") != null) {
+                deleteEmpFromMakingToDo(req);
+            }
         }
 
         doGet(req, resp);
@@ -87,7 +80,7 @@ public class TaskServlet extends HttpServlet {
         Integer empId = Integer.parseInt(req.getParameter("empId"));
 
         Transaction transaction = getSession(req).beginTransaction();
-        todoRepository.deleteEmployeeFromMakingToDo(empId,todoId);
+        todoRepository.deleteEmployeeFromMakingToDo(empId, todoId);
         transaction.commit();
     }
 
@@ -131,8 +124,7 @@ public class TaskServlet extends HttpServlet {
 
         TodoRepository todoRepository = new TodoRepository(getSession(req));
 
-        if(req.getParameter("employee") == null)
-        {
+        if (req.getParameter("employee") == null || req.getParameter("employee").length() == 0) {
             return;
         }
 
@@ -141,7 +133,7 @@ public class TaskServlet extends HttpServlet {
 
 
         Transaction transaction = getSession(req).beginTransaction();
-        todoRepository.addMToMEmployeeToToDo(empId,todoId);
+        todoRepository.addMToMEmployeeToToDo(empId, todoId);
         transaction.commit();
     }
 
@@ -153,8 +145,7 @@ public class TaskServlet extends HttpServlet {
         String description = req.getParameter("descriptionTodo");
         String entryLevel = req.getParameter("degree");
 
-        if (description.length() == 0 || entryLevel == null)
-        {
+        if (description.length() == 0 || entryLevel == null || description.length() > 225) {
             return;
         }
 
@@ -165,7 +156,7 @@ public class TaskServlet extends HttpServlet {
         newTodo.setManager(manager);
 
         Transaction transaction = getSession(req).beginTransaction();
-        todoRepository.addTodo(newTodo,taskId);
+        todoRepository.addTodo(newTodo, taskId);
         transaction.commit();
     }
 
@@ -179,7 +170,7 @@ public class TaskServlet extends HttpServlet {
         String name = req.getParameter("name").trim();
         String description = req.getParameter("description").trim();
 
-        if (name.length() == 0 || description.length() == 0)
+        if (name.length() == 0 || description.length() == 0 || name.length() > 225 || description.length() > 225)
             return;
 
         task.setName(name);

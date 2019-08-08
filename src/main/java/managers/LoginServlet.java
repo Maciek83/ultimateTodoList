@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class LoginServlet extends HttpServlet
-{
+public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -27,17 +26,19 @@ public class LoginServlet extends HttpServlet
         String password = req.getParameter("password").trim();
 
         Transaction transaction = getSession(req).beginTransaction();
-        managerRepository.tryLogin(email,password)
+        managerRepository.tryLogin(email, password)
                 .ifPresentOrElse(manager -> {
-                    req.getSession().setAttribute("loggedManager",manager);
-                    },
+                            req.getSession().setAttribute("loggedManager", manager);
+                            Manager manager1 = (Manager) req.getSession().getAttribute("loggedManager");
+                            req.getSession().setAttribute("uniqueManagerId", manager1.getManager_id());
+                        },
 
-                        ()->{
-                    req.getSession().setAttribute("loggedManager",null);
-                });
+                        () -> {
+                            req.getSession().setAttribute("loggedManager", null);
+                        });
         transaction.commit();
 
-        doGet(req,resp);
+        doGet(req, resp);
     }
 
     private ManagerRepository prepareManagerRepository(HttpServletRequest req) {

@@ -21,7 +21,6 @@ public class TaskRepository {
                 .setParameter("manager",manager)
                 .list();
     }
-
     public Task addTask(Task task)
     {
         session.persist(task);
@@ -37,7 +36,6 @@ public class TaskRepository {
 
         return taskToFlip.isDone();
     }
-
     public Task deleteTask(Integer taskId)
     {
         Task taskToDelete = session.get(Task.class,taskId);

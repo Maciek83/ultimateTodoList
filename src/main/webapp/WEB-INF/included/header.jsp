@@ -9,7 +9,6 @@
                     <li><a href="${pageContext.request.contextPath}/Tasks">Manage Tasks</a></li>
                     <li><a href="${pageContext.request.contextPath}/Employee">Manage Employee</a></li>
                     <li><a href="${pageContext.request.contextPath}/Logout">Logout</a></li>
-                    <li>Welcome ${pageContext.session.getAttribute("loggedManager").name}</li>
                 </c:when>
                 <c:otherwise>
                     <li><a href="${pageContext.request.contextPath}/Register">Register</a></li>

@@ -16,9 +16,9 @@
 <c:set var="isPasswordFieldValid" scope="request" value="${pageContext.request.getParameter('password').trim().length() != 0}"/>
 
 
-<form action="${pageContext.request.contextPath}/Login" method="post">
+<form class="big-form" action="${pageContext.request.contextPath}/Login" method="post">
     <fieldset>
-        <legend>Insert login information:</legend>
+        <legend>Insert login information</legend>
         <br/>
         <label for="email">Email:</label>
         <input
@@ -32,9 +32,8 @@
                 type="password" name="password" id="password" />
         <br/>
         <br/>
-        <input class="add-button" type="submit" name="login" value="Login">
+        <input type="submit" name="login" value="Login">
         <br/>
-
 
         <c:choose>
             <c:when test="${(!isEmailFieldValid || !isPasswordFieldValid) && submit != null}">
@@ -50,9 +49,9 @@
                 </c:if>
             </c:otherwise>
         </c:choose>
+        <p>You don't have an account? <a href="${pageContext.request.contextPath}/Register">Register</a> or use email:a@a password:a</p>
     </fieldset>
 </form>
-
 <c:import url="footer.jsp" charEncoding="UTF=8"/>
 </body>
 </html>

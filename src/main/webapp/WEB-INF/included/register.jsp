@@ -26,7 +26,7 @@
 <c:set var="isEmailValid" scope="request" value="${pageContext.request.getAttribute('isEmailValid')}"/>
 <c:set var="isPasswordOk" scope="request" value="${pageContext.request.getAttribute('isPasswordOk')}"/>
 
-<form action="${pageContext.request.contextPath}/Register" method="post">
+<form class="big-form" action="${pageContext.request.contextPath}/Register" method="post">
     <fieldset>
         <legend>Insert new manager information:</legend>
         <br/>
@@ -61,7 +61,7 @@
         <br/>
         <br/>
 
-        <input class="add-button" type="submit" name="addManager" value="Create">
+        <input type="submit" name="addManager" value="Create">
         <br/>
 
         <c:choose>
