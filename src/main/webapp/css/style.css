@@ -148,6 +148,11 @@ a:visited{
     clear: both;
 }
 
+.error-not-found{
+    color: var(--error-color);
+    text-align: center;
+}
+
 .row {
     display: flex;
     margin-top: 30px;

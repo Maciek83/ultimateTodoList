@@ -5,7 +5,6 @@ import managers.Manager;
 import todos.Todo;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity

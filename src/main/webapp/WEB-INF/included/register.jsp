@@ -28,7 +28,7 @@
 
 <form class="big-form" action="${pageContext.request.contextPath}/Register" method="post">
     <fieldset>
-        <legend>Insert new manager information:</legend>
+        <legend>Insert new manager information</legend>
         <br/>
         <label for="email">Email:</label>
         <input

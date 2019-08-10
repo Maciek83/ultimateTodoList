@@ -10,9 +10,15 @@
         <welcome-file>Welcome</welcome-file>
     </welcome-file-list>
 
-<!--    <error-page>-->
-<!--        <location>/WEB-INF/error/error.jsp</location>-->
-<!--    </error-page>-->
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error.html</location>
+    </error-page>
 
     <listener>
         <listener-class>org.apache.logging.log4j.web.Log4jServletContextListener</listener-class>
