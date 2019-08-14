@@ -11,7 +11,6 @@ import java.io.IOException;
 @WebFilter("/RequestLoginFilter")
 public class RequestLoginFilter implements Filter {
 
-
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -19,7 +18,7 @@ public class RequestLoginFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-
+        servletRequest.setCharacterEncoding("UTF-8");
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 

@@ -16,14 +16,71 @@
     box-sizing: border-box;
 }
 
-body {
-    margin: 0 auto;
-    width: 960px;
+form{
+    margin: 0 0;
 }
 
-header {
-    height: 40px;
-    margin-bottom: 20px;
+/* Mobile Styles */
+@media only screen and (max-width: 400px) {
+    nav ul{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        list-style: none;
+    }
+
+    .entry {
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+    }
+
+    nav ul li{
+        margin: 10px 0;
+    }
+
+
+}
+
+/* Tablet Styles */
+@media only screen and (min-width: 401px) and (max-width: 960px) {
+    nav ul{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        list-style: none;
+    }
+
+    .entry {
+        display: flex;
+        justify-content: space-evenly;
+        flex-direction: column;
+    }
+
+    nav ul li{
+        margin: 10px 0;
+    }
+}
+
+/* Desktop Styles */
+@media only screen and (min-width: 961px) {
+    nav ul {
+        display: flex;
+        list-style-type: none;
+        align-items: center;
+    }
+
+    .entry {
+        display: flex;
+        justify-content: space-evenly;
+    }
+}
+
+body {
+    margin: 0 auto;
+    width: 90%;
 }
 
 footer {
@@ -35,29 +92,16 @@ footer p {
 }
 
 nav{
-    position: fixed;
-}
-
-nav ul {
-    list-style-type: none;
-    padding: 0;
-    margin: auto;
-}
-
-nav li {
-    display: inline;
-    float: left;
+    display: flex;
+    justify-content: center;
 }
 
 nav a:link, nav a:visited {
     background-color: var(--main-color);
     color: white;
-    display: block;
-    width: 160px;
     text-align: center;
-    padding: 10px 0;
+    padding: 10px 35px;
     text-decoration: none;
-
 }
 
 nav a:hover {
@@ -165,16 +209,6 @@ a:visited{
     overflow: auto;
 }
 
-.right-form {
-    float: right;
-    margin: 0 15% 0 0;
-}
-
-.left-form {
-    float: left;
-    margin: 0 0 0 15%;
-}
-
 .entry-description {
     background-color: var(--main-color);
     color: black;
@@ -184,17 +218,6 @@ a:visited{
     margin: 0 10%;
 }
 
-.entry-left {
-    margin-left: 20%;
-}
-
-.entry-center {
-    margin: 0 7.5%;
-}
-
-.entry-right {
-    margin-right: 20%;
-}
 
 .dot-style {
     width: 70%;
@@ -202,7 +225,6 @@ a:visited{
 }
 
 .delete-user-form {
-    clear: both;
     margin-top: 20px;
 }
 

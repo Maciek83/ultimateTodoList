@@ -90,12 +90,15 @@
         <p class="entry-description">Junior</p>
         <c:forEach items="${requestScope.junior}" var="emp">
             <hr class="dot-style"/>
-            <span class="entry-left">${emp.name} ${emp.surname}</span>
-            <form class="right-form" action="${pageContext.request.contextPath}/Employee" method="post">
+            <div class="entry">
+                <span>${emp.name} ${emp.surname}</span>
+            <form action="${pageContext.request.contextPath}/Employee" method="post">
                 <input type="hidden" name="empId" value="${emp.employee_id}">
                 <input type="hidden" name="empLevel" value="mid">
                 <input class="move-button" type="submit" name="changeLevel" value="->">
             </form>
+            </div>
+            <br/>
             <form class="delete-user-form" action="${pageContext.request.contextPath}/Employee" method="post">
                 <input type="hidden" name="empId2" value="${emp.employee_id}">
                 <input type="submit" name="deleteEmployee" value="Delete">
@@ -107,17 +110,19 @@
         <p class="entry-description">Mid</p>
         <c:forEach items="${requestScope.mid}" var="emp">
             <hr class="dot-style"/>
-            <form class="left-form" action="${pageContext.request.contextPath}/Employee" method="post">
+            <div class="entry">
+            <form action="${pageContext.request.contextPath}/Employee" method="post">
                 <input type="hidden" name="empId" value="${emp.employee_id}">
                 <input type="hidden" name="empLevel" value="junior">
                 <input class="move-button" type="submit" name="changeLevel" value="<-">
             </form>
-            <span class="entry-center">${emp.name} ${emp.surname}</span>
-            <form class="right-form" action="${pageContext.request.contextPath}/Employee" method="post">
+                <span>${emp.name} ${emp.surname}</span>
+            <form action="${pageContext.request.contextPath}/Employee" method="post">
                 <input type="hidden" name="empId" value="${emp.employee_id}">
                 <input type="hidden" name="empLevel" value="senior">
                 <input class="move-button" type="submit" name="changeLevel" value="->">
             </form>
+            </div>
             <br/>
             <form class="delete-user-form" action="${pageContext.request.contextPath}/Employee" method="post">
                 <input type="hidden" name="empId2" value="${emp.employee_id}">
@@ -130,12 +135,14 @@
         <p class="entry-description">Senior</p>
         <c:forEach items="${requestScope.senior}" var="emp">
             <hr class="dot-style"/>
-            <form class="left-form" action="${pageContext.request.contextPath}/Employee" method="post">
+            <div class="entry">
+            <form action="${pageContext.request.contextPath}/Employee" method="post">
                 <input type="hidden" name="empId" value="${emp.employee_id}">
                 <input type="hidden" name="empLevel" value="mid">
                 <input class="move-button" type="submit" name="changeLevel" value="<-">
             </form>
-            <span class="entry-right">${emp.name} ${emp.surname}</span>
+            <span>${emp.name} ${emp.surname}</span>
+            </div>
             <br/>
             <form class="delete-user-form" action="${pageContext.request.contextPath}/Employee" method="post">
                 <input type="hidden" name="empId2" value="${emp.employee_id}">

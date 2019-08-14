@@ -7,26 +7,26 @@ import org.hibernate.Session;
 import java.util.List;
 import java.util.Set;
 
-public class TaskRepository {
+class TaskRepository {
 
     private Session session;
 
-    public TaskRepository(Session session) {
+    TaskRepository(Session session) {
         this.session = session;
     }
 
-    public List<Task> findAll(Manager manager)
+    List<Task> findAll(Manager manager)
     {
         return session.createQuery("from Task T where T.manager=:manager", Task.class)
                 .setParameter("manager",manager)
                 .list();
     }
-    public Task addTask(Task task)
+    Task addTask(Task task)
     {
         session.persist(task);
         return task;
     }
-    public boolean changeIsDone(Integer taskId)
+    void changeIsDone(Integer taskId)
     {
         Task taskToFlip = session.get(Task.class,taskId);
 
@@ -34,9 +34,8 @@ public class TaskRepository {
 
         taskToFlip.setDone(!taskToFlip.isDone());
 
-        return taskToFlip.isDone();
     }
-    public Task deleteTask(Integer taskId)
+    void deleteTask(Integer taskId)
     {
         Task taskToDelete = session.get(Task.class,taskId);
 
@@ -50,6 +49,5 @@ public class TaskRepository {
         });
 
         session.delete(taskToDelete);
-        return taskToDelete;
     }
 }

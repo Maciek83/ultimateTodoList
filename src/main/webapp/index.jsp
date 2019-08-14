@@ -7,7 +7,7 @@
         <c:param name="description" value="Ultimate Todos"/>
         <c:param name="keywords" value="todo,tasks"/>
     </c:import>
-    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <c:import url="WEB-INF/included/header.jsp" charEncoding="UTF=8"/>
