@@ -67,7 +67,7 @@
 
 
     <build>
-        <finalName>todoList</finalName>
+        <finalName>UltimateTodo</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
