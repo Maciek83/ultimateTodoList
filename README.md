@@ -1,3 +1,5 @@
+To run in docker first docker-compose build and then docker-compose up.
+
 The application is used to manage tasks and employees assigned to perform them. Each major task consists of smaller tasks to which employees can be assigned.
 Logic
 
