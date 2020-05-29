@@ -5,6 +5,7 @@
 
 *.iml
 .idea
+.vscode/
 
 .metadata
 bin/

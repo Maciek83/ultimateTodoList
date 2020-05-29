@@ -1,0 +1,46 @@
+version: '3.3'
+
+services:
+    db:
+        image: mysql:5.7.30
+        command: --default-authentication-plugin=mysql_native_password
+        restart: always
+        volumes: 
+            - ./mysql:/var/lib/mysql
+        environment:
+            - MYSQL_USER=root
+            - MYSQL_PASSWORD=haslo123
+            - MYSQL_ROOT_PASSWORD=haslo123
+            - MYSQL_DATABASE=TestDB
+        ports: 
+            - "3306:3306"
+    war:
+        image: macieknvm:im
+        build:
+            context: .
+            dockerfile: ./mvnd/Dockerfile
+        depends_on: 
+            - db
+        volumes: 
+            - pg-data:/shareddata
+        command: mv /app/target/UltimateTodo.war /shareddata
+        
+    tom:
+        image: maciektom:im
+        build: 
+            context: .
+            dockerfile: ./tomd/Dockerfile
+        depends_on:
+            - db
+            - war
+        volumes: 
+            - pg-data:/usr/local/tomcat/webapps
+        command: /usr/local/tomcat/bin/catalina.sh run
+        ports: 
+            - "8080:8080"
+        stdin_open: true
+        tty: true
+        entrypoint: /bin/sh
+          
+volumes: 
+    pg-data:

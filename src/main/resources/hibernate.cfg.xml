@@ -6,11 +6,11 @@
     <session-factory>
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
-        <property name="hibernate.connection.datasource">java:comp/env/jdbc/TodoDB</property>
+        <property name="hibernate.connection.datasource">java:comp/env/jdbc/MyLocalDB</property>
         <property name="hibernate.current_session_context_class">thread</property>
         
 
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">create-drop</property>
 
         <mapping class="todos.Todo"/>
         <mapping class="tasks.Task"/>

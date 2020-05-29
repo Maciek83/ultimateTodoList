@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- antiResourceLocking="true" -->
+<Context 
+path="/MyLocalDB" 
+reloadable="true"
+antiResourceLocking="true">
+
+    <ResourceLink 
+    global="jdbc/MyLocalDB" 
+    name="jdbc/MyLocalDB" 
+    type="javax.sql.DataSource" />
+
+</Context>
