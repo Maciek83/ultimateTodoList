@@ -45,8 +45,8 @@
               pathname="conf/tomcat-users.xml" />
 
     <Resource 
-    name="jdbc/MyLocalDB" 
-    global="jdbc/MyLocalDB" 
+    name="jdbc/TodoDB" 
+    global="jdbc/TodoDB" 
     auth="Container" 
     type="javax.sql.DataSource" 
     driverClassName="com.mysql.jdbc.Driver" 

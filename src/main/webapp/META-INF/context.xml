@@ -2,13 +2,13 @@
 
 <!-- antiResourceLocking="true" -->
 <Context 
-path="/MyLocalDB" 
+path="/TodoDB" 
 reloadable="true"
 antiResourceLocking="true">
 
     <ResourceLink 
-    global="jdbc/MyLocalDB" 
-    name="jdbc/MyLocalDB" 
+    global="jdbc/TodoDB" 
+    name="jdbc/TodoDB" 
     type="javax.sql.DataSource" />
 
 </Context>
